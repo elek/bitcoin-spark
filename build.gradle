@@ -1,0 +1,20 @@
+apply plugin: 'scala'
+apply plugin: 'java'
+
+
+repositories {
+   mavenLocal()
+   mavenCentral()
+}
+
+dependencies {
+    compile 'org.scala-lang:scala-library:2.11.1'
+    compile("org.apache.hadoop:hadoop-common:2.7.0")
+    compile("org.apache.spark:spark-core_2.11:2.0.0")
+    compile("org.apache.spark:spark-sql_2.11:2.0.0")
+    compile("org.apache.hadoop:hadoop-mapreduce-client-common:2.7.0")
+    compile 'com.hortonworks:shc-core:1.0.2-2.0-s_2.11-SNAPSHOT'
+    compile 'com.github.zuinnote:hadoopcryptoledger-fileformat:1.0.1'
+    compile 'com.madgag.spongycastle:core:1.51.0.0'
+
+}
