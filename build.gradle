@@ -1,16 +1,6 @@
 apply plugin: 'scala'
 apply plugin: 'java'
 apply plugin: 'application'
-apply plugin: 'gradle-one-jar'
-
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.github.rholder:gradle-one-jar:1.0.4'
-    }
-}
 
 repositories {
     mavenLocal()
@@ -23,7 +13,7 @@ configurations {
     provided
 }
 
-jar{
+jar {
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
 
@@ -34,20 +24,27 @@ sourceSets {
 }
 
 
-task uberJar(type: OneJar) {
-    mainClass = 'net.anzix.hadoop.HbaseSelect'
-}
-
 dependencies {
     provided 'org.scala-lang:scala-library:2.11.1'
     provided "org.apache.hadoop:hadoop-common:2.7.0"
     provided "org.apache.spark:spark-core_2.11:2.0.2"
     provided "org.apache.spark:spark-sql_2.11:2.0.2"
     provided "org.apache.spark:spark-yarn_2.11:2.0.2"
+    compile 'com.github.scopt:scopt_2.11:3.5.0'
 
-    compile ('com.hortonworks:shc-core:1.0.2-2.0-s_2.11-SNAPSHOT') {
+    compile('com.hortonworks:shc-core:1.0.2-2.0-s_2.11-SNAPSHOT') {
         exclude module: 'hbase-server'
+        exclude module: 'hbase-common'
         exclude group: 'org.apache.spark'
+        exclude module: 'hadoop-common'
+        exclude module: 'hadoop-auth'
+        exclude module: 'hadoop-mapreduce-client-core'
+
+    }
+    compile('org.apache.hbase:hbase-client:1.1.2'){
+        exclude module: 'hadoop-common'
+        exclude module: 'hadoop-auth'
+        exclude module: 'hadoop-mapreduce-client-core'
 
     }
     compile 'com.github.zuinnote:hadoopcryptoledger-fileformat:1.0.1'

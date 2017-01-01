@@ -1,8 +1,9 @@
-package net.anzix.hadoop
+package net.anzix.hadoop.blockfiles
 
 import java.text.SimpleDateFormat
 import java.util.Date
 
+import net.anzix.hadoop.Application
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.io.BytesWritable
 import org.apache.hadoop.mapred.FileInputFormat

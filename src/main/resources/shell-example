@@ -1,0 +1,15 @@
+import net.anzix.hadoop.HBaseLoader
+val sqlContext = new org.apache.spark.sql.SQLContext(sc)
+val blocks = HBaseLoader.blocks(sqlContext).withColumn("ts",from_unixtime(col("transactionDate"))).cache()
+
+
+
+
+
+val c = blocks.count()
+blocks.createOrReplaceTempView("blocks")
+sqlContext.sql("SELECT YEAR(ts),COUNT(1) FROM blocks GROUP BY YEAR(ts)").show()
+blocks.sort($"size".desc).limit(100).show()
+
+sqlContext.sql("SELECT YEAR(ts),MONTH(ts),min(transactionCounter),max(transactionCounter),min(size),max(size) FROM blocks GROUP BY YEAR(ts),MONTH(ts) ORDER BY YEAR(ts),MONTH(ts)").show(100)
+sqlContext.sql("SELECT YEAR(ts),MONTH(ts),COUNT(1) FROM (SELECT * from BLOCKS WHERE transactionCounter<10) GROUP BY YEAR(ts), MONTH(ts) ORDER BY YEAR(ts),MONTH(ts)").show(200, false)
